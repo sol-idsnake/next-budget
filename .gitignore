@@ -1,7 +1,2 @@
 node_modules
-.next
-.cache
 migrations
-
-# Keep environment variables out of version control
-.env

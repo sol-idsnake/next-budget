@@ -1,11 +1,31 @@
-import { useContext } from 'react';
-import Budget from '../components/budget';
-import UserContext from '../contexts/UserContext';
+import { useEffect } from 'react';
+import { useCurrentUser } from '../src/context';
 
 const Index = () => {
-  const user = useContext(UserContext);
+  const { userState, login } = useCurrentUser();
 
-  return <main>{user && <Budget userId={user?.id} />}</main>;
+  useEffect(() => {
+    console.log(userState, 'userState');
+
+    if (userState.newUser != null) {
+      //   setCurrentUser(userState.newUser);
+    }
+  }, [userState.newUser]);
+
+  const handleClick = () => login('ADMIN');
+
+  return (
+    <>
+      <section>
+        <h1>test</h1>
+        {!userState.currentUser && (
+          <button type="button" onClick={handleClick}>
+            Login
+          </button>
+        )}
+      </section>
+    </>
+  );
 };
 
 export default Index;

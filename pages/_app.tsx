@@ -1,17 +1,16 @@
-import { EmotionCache } from '@emotion/cache';
-import { CacheProvider } from '@emotion/react';
+import { CacheProvider, EmotionCache } from '@emotion/react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import type { AppProps } from 'next/app';
+import { AppProps } from 'next/app';
 import Head from 'next/head';
-import BudgetProvider from '../contexts/BudgetContext';
-import DatabaseProvider from '../contexts/DatabaseContext';
-import { UserProvider } from '../contexts/UserContext';
-import { clientSideEmotionCache, theme } from '../theme';
+import { BudgetProvider } from '../src/context/BudgetProvider';
+import { UserProvider } from '../src/context/UserProvider';
+import '../src/styles/tailwind.css';
+import { clientSideEmotionCache, theme } from '../src/theme';
 
-const MyApp = ({
+const App = ({
   Component,
-  emotionCache = clientSideEmotionCache,
   pageProps,
+  emotionCache = clientSideEmotionCache,
 }: AppProps & { emotionCache: EmotionCache }) => {
   return (
     <CacheProvider value={emotionCache}>
@@ -20,17 +19,15 @@ const MyApp = ({
       </Head>
 
       <ThemeProvider theme={theme}>
-        <CssBaseline />
         <UserProvider>
-          <DatabaseProvider>
-            <BudgetProvider>
-              <Component {...pageProps} />
-            </BudgetProvider>
-          </DatabaseProvider>
+          <BudgetProvider>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </BudgetProvider>
         </UserProvider>
       </ThemeProvider>
     </CacheProvider>
   );
 };
 
-export default MyApp;
+export default App;
